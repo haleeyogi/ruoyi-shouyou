@@ -94,16 +94,25 @@ export const constantRoutes = [
       }
     ]
   },
+  { path: '/h5', name: 'H5首页', component: () => import('@/views/h5/index') },
+  { path: '/h5/detail/:id', name: '游戏详情', component: () => import('@/views/h5/detail') },
+  { path: '/h5/category', name: '游戏分类', component: () => import('@/views/h5/category') },
+  { path: '/h5/rank', name: '排行榜', component: () => import('@/views/h5/rank') },
+  { path: '/h5/search', name: '搜索', component: () => import('@/views/h5/search') },
   {
-    path: '/h5',
-    component: () => import('@/views/h5/index'),
-    name: 'H5Index',
-    meta: { title: '手游盒子H5首页' }
+    path: '/h5/category',
+    component: () => import('@/views/h5/category'),
+    meta: { title: '游戏分类' }
   },
   {
-    path: '/h5/detail/:id',
-    component: () => import('@/views/h5/detail'),
-    meta: { title: '游戏详情' }
+    path: '/h5/rank',
+    component: () => import('@/views/h5/rank'),
+    meta: { title: '游戏排行榜' }
+  },
+  {
+    path: '/h5/search',
+    component: () => import('@/views/h5/search'),
+    meta: { title: '游戏搜索' }
   }
 ]
 
@@ -198,3 +207,5 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
+
+

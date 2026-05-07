@@ -31,3 +31,22 @@ export function getGameDetail(id) {
     method: 'get'
   })
 }
+// 获取分类列表
+export function getCategoryList() {
+  return request({ url: '/api/game/category/list', method: 'get' })
+}
+
+// 根据分类查游戏
+export function getGameByCat(catId) {
+  return request({ url: '/api/game/byCat/'+catId, method: 'get' })
+}
+
+// 排行榜
+export function getGameRank() {
+  return request({ url: '/api/game/rank', method: 'get' })
+}
+
+// 搜索游戏
+export function searchGame(keyword) {
+  return request({ url: '/api/game/search?keyword='+keyword, method: 'get' })
+}

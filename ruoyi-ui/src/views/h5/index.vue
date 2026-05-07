@@ -1,108 +1,57 @@
 <template>
-  <div class="h5-container">
+  <div class="home">
     <!-- 轮播 -->
-    <el-carousel indicator="outside" arrow="never" height="180px">
-      <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <img :src="item.gameCover" class="banner-img" />
-      </el-carousel-item>
-    </el-carousel>
-
-    <!-- 热门游戏 -->
-    <div class="title">热门游戏</div>
-    <div class="game-list">
-      <div class="game-item" v-for="item in hotList" :key="item.id">
-        <img :src="item.gameIcon" class="icon" />
-        <div class="info">
-          <div class="name">{{ item.gameName }}</div>
-          <div class="desc">{{ item.gameSize }} · {{ item.downloadCount }}次下载</div>
-        </div>
-        <el-button size="mini" type="primary">下载</el-button>
-      </div>
+    <div class="swiper">
+      <img src="https://picsum.photos/800/300" alt="轮播图">
     </div>
 
-    <!-- 最新游戏 -->
-    <div class="title">最新上架</div>
+    <!-- 导航 -->
+    <div class="nav-row">
+      <div class="nav-item" @click="$router.push('/h5/category')">全部分类</div>
+      <div class="nav-item" @click="$router.push('/h5/rank')">排行榜</div>
+      <div class="nav-item" @click="$router.push('/h5/search')">搜索游戏</div>
+    </div>
+
+    <!-- 热门游戏 -->
+    <div class="title">🔥热门游戏</div>
     <div class="game-list">
-      <div class="game-item" v-for="item in newList" :key="item.id">
-        <img :src="item.gameIcon" class="icon" />
+      <div class="game-item" v-for="item in hotList" :key="item.id" @click="$router.push(`/h5/detail/${item.id}`)">
+        <img :src="item.gameIcon" class="icon">
         <div class="info">
-          <div class="name">{{ item.gameName }}</div>
-          <div class="desc">{{ item.gameSize }} · {{ item.downloadCount }}次下载</div>
+          <div class="name">{{item.gameName}}</div>
+          <div class="desc">{{item.downloadCount}}次下载</div>
         </div>
-        <el-button size="mini" type="success">下载</el-button>
       </div>
+    </div>
+    <div class="game-item" v-for="item in hotList" :key="item.id" @click="goDetail(item.id)">
+      ...不变...
     </div>
   </div>
 </template>
 
 <script>
-import { getBanner, getHotGame, getNewGame } from '@/api/h5/game'
-
+import { getHotGame } from "@/api/h5/game";
 export default {
-  name: 'H5Index',
   data() {
-    return {
-      bannerList: [],
-      hotList: [],
-      newList: []
-    }
+    return { hotList: [] };
   },
-  created() {
-    this.loadData()
+  async created() {
+    let res = await getHotGame();
+    this.hotList = res.data;
   },
-  methods: {
-    async loadData() {
-      const [banner, hot, newGame] = await Promise.all([
-        getBanner(),
-        getHotGame(),
-        getNewGame()
-      ])
-      this.bannerList = banner.data
-      this.hotList = hot.data
-      this.newList = newGame.data
-    }
-  }
-}
+};
 </script>
 
 <style scoped>
-.h5-container {
-  background: #f5f5f5;
-  min-height: 100vh;
-}
-.banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.title {
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-}
-.game-list {
-  background: #fff;
-}
-.game-item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-.icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-}
-.info {
-  flex: 1;
-  margin: 0 10px;
-}
-.name {
-  font-size: 14px;
-}
-.desc {
-  font-size: 12px;
-  color: #666;
-}
+.home { background: #f5f5f5; min-height: 100vh; }
+.swiper img { width: 100%; border-radius: 10px; }
+.nav-row { display: flex; justify-content: space-around; background: #fff; padding: 12px; margin: 10px; border-radius: 10px; }
+.nav-item { font-size: 14px; }
+.title { padding: 15px; font-size: 16px; font-weight: bold; }
+.game-list { background: #fff; margin: 10px; border-radius: 10px; }
+.game-item { display: flex; padding: 10px; border-bottom: 1px solid #eee; }
+.icon { width: 60px; height: 60px; border-radius: 8px; }
+.info { margin-left: 10px; }
+.nav-row{display:flex;justify-content:space-around;background:#fff;padding:12px 0;margin:10px;border-radius:10px;}
+.nav-item{font-size:14px;color:#333;}
 </style>
