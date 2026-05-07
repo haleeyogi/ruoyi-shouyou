@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruoyi.system.mapper.GameInfoMapper">
+
+    <resultMap type="com.ruoyi.system.domain.GameInfo" id="GameInfoResult">
+        <id property="id" column="id"/>
+        <result property="catId" column="cat_id"/>
+        <result property="gameName" column="game_name"/>
+        <result property="gameIcon" column="game_icon"/>
+        <result property="gameCover" column="game_cover"/>
+        <result property="gameSize" column="game_size"/>
+        <result property="gameVersion" column="game_version"/>
+        <result property="gameDesc" column="game_desc"/>
+        <result property="gameDownloadUrl" column="game_download_url"/>
+        <result property="gameH5Url" column="game_h5_url"/>
+        <result property="downloadCount" column="download_count"/>
+        <result property="isRecommend" column="is_recommend"/>
+        <result property="sortNum" column="sort_num"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="selectGameInfoList" parameterType="com.ruoyi.system.domain.GameInfo" resultMap="GameInfoResult">
+        select * from game_info
+        <where>
+            <if test="gameName != null and gameName != ''">
+                AND game_name like concat('%',#{gameName},'%')
+            </if>
+            <if test="catId != null">
+                AND cat_id = #{catId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        order by sort_num asc,id desc
+    </select>
+
+    <select id="selectGameInfoById" parameterType="Long" resultMap="GameInfoResult">
+        select * from game_info where id = #{id}
+    </select>
+
+    <insert id="insertGameInfo" parameterType="com.ruoyi.system.domain.GameInfo">
+        INSERT INTO game_info
+        (cat_id,game_name,game_icon,game_cover,game_size,game_version,game_desc,
+         game_download_url,game_h5_url,is_recommend,sort_num,status,create_time)
+        VALUES
+            (#{catId},#{gameName},#{gameIcon},#{gameCover},#{gameSize},#{gameVersion},#{gameDesc},
+             #{gameDownloadUrl},#{gameH5Url},#{isRecommend},#{sortNum},#{status},NOW())
+    </insert>
+
+    <update id="updateGameInfo" parameterType="com.ruoyi.system.domain.GameInfo">
+        UPDATE game_info
+        <set>
+            <if test="catId != null">cat_id=#{catId},</if>
+            <if test="gameName != null">game_name=#{gameName},</if>
+            <if test="gameIcon != null">game_icon=#{gameIcon},</if>
+            <if test="gameCover != null">game_cover=#{gameCover},</if>
+            <if test="gameSize != null">game_size=#{gameSize},</if>
+            <if test="gameVersion != null">game_version=#{gameVersion},</if>
+            <if test="gameDesc != null">game_desc=#{gameDesc},</if>
+            <if test="gameDownloadUrl != null">game_download_url=#{gameDownloadUrl},</if>
+            <if test="gameH5Url != null">game_h5_url=#{gameH5Url},</if>
+            <if test="isRecommend != null">is_recommend=#{isRecommend},</if>
+            <if test="sortNum != null">sort_num=#{sortNum},</if>
+            <if test="status != null">status=#{status},</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteGameInfoByIds" parameterType="Long">
+        DELETE FROM game_info WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

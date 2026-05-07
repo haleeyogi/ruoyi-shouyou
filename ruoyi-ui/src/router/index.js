@@ -93,6 +93,17 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/h5',
+    component: () => import('@/views/h5/index'),
+    name: 'H5Index',
+    meta: { title: '手游盒子H5首页' }
+  },
+  {
+    path: '/h5/detail/:id',
+    component: () => import('@/views/h5/detail'),
+    meta: { title: '游戏详情' }
   }
 ]
 
