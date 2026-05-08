@@ -47,6 +47,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/h5',
+    name: 'H5Index',
+    component: () => import('@/views/h5/index')
+  },
+  {
     path: '/register',
     component: () => import('@/views/register'),
     hidden: true
